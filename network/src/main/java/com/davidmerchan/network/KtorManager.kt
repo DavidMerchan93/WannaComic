@@ -3,7 +3,6 @@ package com.davidmerchan.network
 import android.util.Log
 import com.davidmerchan.network.model.GeneralRequest
 import com.davidmerchan.network.model.GeneralResponse
-import com.davidmerchan.network.model.Resource
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -16,7 +15,7 @@ class KtorManager @Inject constructor(
     private val httpClient: HttpClient
 ): ApiManager {
 
-    override suspend fun <T> get(endpoint: String): Resource<T> {
+    override suspend fun <T> get(endpoint: String): Result<T> {
         return try {
             val response = httpClient.get {
                 url {
@@ -26,23 +25,23 @@ class KtorManager @Inject constructor(
                 }
             }
             val body: GeneralResponse<T> = response.body()
-            Resource.Success(body.data)
+            Result.success(body.data)
         } catch (e: Exception) {
             Log.e(TAG, "Exception: ${e.message}")
-            Resource.Error(e.message ?: "$TAG : General Error")
+            Result.failure(e)
         }
     }
 
-    override suspend fun <R, T> post(url: String, request: GeneralRequest<R>): Resource<T> {
+    override suspend fun <R, T> post(url: String, request: GeneralRequest<R>): Result<T> {
         return try {
             val response = httpClient.post(url) {
                 setBody(request)
             }
             val body: GeneralResponse<T> = response.body()
-            Resource.Success(body.data)
+            Result.success(body.data)
         } catch (e: Exception) {
             Log.e(TAG, "Exception: ${e.message}")
-            Resource.Error(e.message ?: "$TAG : General Error")
+            Result.failure(e)
         }
     }
 

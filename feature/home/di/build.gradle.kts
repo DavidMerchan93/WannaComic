@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.davidmerchan.network"
+    namespace = "com.davidmerchan.di"
     compileSdk = 34
 
     defaultConfig {
@@ -36,24 +36,17 @@ android {
 
 dependencies {
 
+    implementation(project(":feature:home:data"))
+    implementation(project(":feature:home:domain"))
+    implementation(project(":feature:home:presentation"))
+    implementation(project(":network"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
-    // Ktor client
-    implementation(libs.ktor.client.core)
-    implementation(libs.ktor.client.android)
-    implementation(libs.ktor.client.okhttp)
-    implementation(libs.ktor.client.content.negotiation)
-    implementation(libs.ktor.serialization.kotlinx.json)
-    implementation(libs.ktor.client.logging)
-
-    // Kotlin Coroutines
-    implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.kotlinx.coroutines.android)
 
     // Hilt
     implementation(libs.hilt.android)
