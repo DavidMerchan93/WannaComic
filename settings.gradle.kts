@@ -10,6 +10,12 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
+    plugins {
+        kotlin("jvm") version "1.9.0"
+    }
+}
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
@@ -21,3 +27,15 @@ dependencyResolutionManagement {
 
 rootProject.name = "WannaComic"
 include(":app")
+include(":network")
+include(":core")
+include(":database")
+include(":feature")
+include(":feature:home")
+include(":feature:shopping")
+include(":feature:home:data")
+include(":feature:shopping:data")
+include(":feature:home:domain")
+include(":feature:shopping:domain")
+include(":feature:home:presentation")
+include(":feature:shopping:presentation")
