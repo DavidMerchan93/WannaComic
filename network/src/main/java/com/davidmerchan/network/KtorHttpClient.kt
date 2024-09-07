@@ -14,8 +14,9 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import javax.inject.Inject
 
-class KtorHttpClient {
+class KtorHttpClient @Inject constructor() {
 
     fun getHttpClient() = HttpClient(Android) {
         install(ContentNegotiation) {
@@ -53,7 +54,7 @@ class KtorHttpClient {
     }
 
     companion object {
-        private const val TIME_OUT = 5000
+        private const val TIME_OUT = 15_000
         private const val TAG = "KtorClient"
         private const val HTTP_STATUS = "http_status:"
     }
