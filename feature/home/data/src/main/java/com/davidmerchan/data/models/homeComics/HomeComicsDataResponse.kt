@@ -1,6 +1,5 @@
 package com.davidmerchan.data.models.homeComics
 
-
 import com.davidmerchan.domain.entity.homeComic.HomeComicDomain
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -19,6 +18,6 @@ data class HomeComicsDataResponse(
     val total: Int
 ) {
     fun toDomain(): HomeComicDomain {
-        return HomeComicDomain("hola")
+        return HomeComicDomain(results.first().title)
     }
 }

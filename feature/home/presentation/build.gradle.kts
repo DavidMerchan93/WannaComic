@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.davidmerchan.presentation"
+    namespace = "com.davidmerchan.home.presentation"
     compileSdk = 34
 
     defaultConfig {
@@ -25,6 +25,12 @@ android {
             )
         }
     }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.1"
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -37,10 +43,11 @@ android {
 dependencies {
 
     implementation(project(":core"))
+    implementation(project(":feature:home:data"))
     implementation(project(":feature:home:domain"))
+    implementation(project(":feature:home:di"))
 
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
@@ -54,4 +61,5 @@ dependencies {
     ksp(libs.hilt.android.compiler)
     implementation(libs.hilt.androidx.viewmodel)
     implementation(libs.hilt.kotlinx.coroutine)
+    implementation(libs.androidx.hilt.navigation.compose)
 }

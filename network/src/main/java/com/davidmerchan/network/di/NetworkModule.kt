@@ -8,15 +8,18 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.ktor.client.HttpClient
+import javax.inject.Singleton
 
-@InstallIn(SingletonComponent::class)
 @Module
-class NetworkModule {
+@InstallIn(SingletonComponent::class)
+object NetworkModule {
 
     @Provides
-    fun getHttpClient(ktorHttpClient: KtorHttpClient): HttpClient =
-        ktorHttpClient.getHttpClient()
+    @Singleton
+    fun getHttpClient(): HttpClient =
+        KtorHttpClient.getHttpClient()
 
     @Provides
+    @Singleton
     fun getApiManager(client: HttpClient): ApiManager = KtorManager(client)
 }

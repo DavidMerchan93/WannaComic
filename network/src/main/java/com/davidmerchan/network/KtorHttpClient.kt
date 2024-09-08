@@ -4,6 +4,7 @@ import android.util.Log
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
 import io.ktor.client.plugins.DefaultRequest
+import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
@@ -14,16 +15,22 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
-import javax.inject.Inject
 
-class KtorHttpClient @Inject constructor() {
+object KtorHttpClient {
+
+    private const val TIME_OUT = 30_000L
+    private const val TAG = "KtorClient"
+    private const val HTTP_STATUS = "http_status:"
 
     fun getHttpClient() = HttpClient(Android) {
         install(ContentNegotiation) {
             json(
                 Json {
-                    ignoreUnknownKeys = true
                     prettyPrint = true
+                    isLenient = true
+                    useAlternativeNames = true
+                    ignoreUnknownKeys = true
+                    encodeDefaults = false
                 }
             )
         }
@@ -47,15 +54,10 @@ class KtorHttpClient @Inject constructor() {
             header(HttpHeaders.ContentType, ContentType.Application.Json)
         }
 
-        engine {
-            connectTimeout = TIME_OUT
-            socketTimeout = TIME_OUT
+        install(HttpTimeout) {
+            requestTimeoutMillis = TIME_OUT
+            connectTimeoutMillis = TIME_OUT
+            socketTimeoutMillis = TIME_OUT
         }
-    }
-
-    companion object {
-        private const val TIME_OUT = 15_000
-        private const val TAG = "KtorClient"
-        private const val HTTP_STATUS = "http_status:"
     }
 }

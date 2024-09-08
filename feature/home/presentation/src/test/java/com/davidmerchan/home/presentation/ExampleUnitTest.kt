@@ -1,8 +1,7 @@
-package com.davidmerchan.wannacomic
-
-import org.junit.Test
+package com.davidmerchan.home.presentation
 
 import org.junit.Assert.*
+import org.junit.Test
 
 /**
  * Example local unit test, which will execute on the development machine (host).

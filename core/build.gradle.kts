@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
+    //alias(libs.plugins.kotlinx.serialization)
+    id("kotlinx-serialization")
 }
 
 android {
@@ -34,7 +36,9 @@ android {
 
 dependencies {
 
-    implementation(libs.ktor.serialization.kotlinx.json)
+    //implementation(libs.ktor.serialization.kotlinx.json)
+    implementation(platform("io.ktor:ktor-bom:2.3.12"))
+    implementation("io.ktor:ktor-serialization-kotlinx-json")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 data class Result(
     @SerialName("title")
     val title: String,
-    @SerialName("thumbnail")
+    /*@SerialName("thumbnail")
     val thumbnail: Thumbnail,
     @SerialName("prices")
     val prices: List<Price>,
@@ -16,5 +16,5 @@ data class Result(
     @SerialName("pageCount")
     val pageCount: Int,
     @SerialName("images")
-    val images: List<Image>,
+    val images: List<Image>,*/
 )
