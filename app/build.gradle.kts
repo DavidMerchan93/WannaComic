@@ -73,4 +73,6 @@ dependencies {
     implementation(libs.hilt.androidx.viewmodel)
     implementation(libs.hilt.kotlinx.coroutine)
 
+    implementation(libs.coil.compose)
+
 }

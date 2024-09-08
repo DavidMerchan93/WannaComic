@@ -39,6 +39,7 @@ dependencies {
     implementation(project(":feature:home:data"))
     implementation(project(":feature:home:domain"))
     implementation(project(":network"))
+    implementation(project(":core"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
