@@ -13,9 +13,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.davidmerchan.home.presentation.HomeScreen
-import com.davidmerchan.presentation.ComicDetailScreen
+import com.davidmerchan.home.presentation.ui.HomeScreen
 import com.davidmerchan.presentation.ShoppingCartScreen
+import com.davidmerchan.presentation.ui.ComicDetailScreen
 import com.davidmerchan.wannacomic.ui.theme.WannaComicTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -63,7 +63,11 @@ fun MainNavigation(
             )
         }
         composable<Screen.ShoppingCart> {
-            ShoppingCartScreen()
+            ShoppingCartScreen(
+                onBackPressed = {
+                    navController.popBackStack()
+                }
+            )
         }
     }
 }

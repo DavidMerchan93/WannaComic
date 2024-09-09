@@ -15,24 +15,38 @@ import javax.inject.Inject
 @HiltViewModel
 class ShoppingCartViewModel @Inject constructor(
     private val getShoppingCartUseCase: GetShoppingCartUseCase
-): ViewModel() {
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ShoppingCartUiState())
     val uiState: StateFlow<ShoppingCartUiState> = _uiState.asStateFlow()
 
     fun handleEvent(event: ShoppingCartUiIntent) {
-        when(event) {
+        when (event) {
             ShoppingCartUiIntent.LoadShoppingCart -> getShoppingCart()
             is ShoppingCartUiIntent.RemoveComicFromCart -> {}
         }
     }
 
     private fun getShoppingCart() {
+        _uiState.value = ShoppingCartUiState(isLoading = true)
         viewModelScope.launch {
-            val result = getShoppingCartUseCase()
-            when(result) {
-                is Resource.Error -> { println("Error: ${result.message}") }
-                is Resource.Success -> { println("Success") }
+            when (val result = getShoppingCartUseCase()) {
+                is Resource.Error -> {
+                    _uiState.update {
+                        ShoppingCartUiState(error = result.message)
+                    }
+                }
+
+                is Resource.Success -> {
+                    _uiState.update {
+                        if (result.result.isNotEmpty()) {
+                            ShoppingCartUiState(cartItems = result.result)
+                        } else {
+                            ShoppingCartUiState(isCartEmpty = true)
+                        }
+                    }
+                }
+
                 Resource.Loading -> {
                     _uiState.update {
                         ShoppingCartUiState(isLoading = true)

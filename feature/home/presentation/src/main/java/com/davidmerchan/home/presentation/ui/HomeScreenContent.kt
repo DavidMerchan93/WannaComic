@@ -1,4 +1,4 @@
-package com.davidmerchan.home.presentation
+package com.davidmerchan.home.presentation.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,7 +19,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -28,9 +27,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,56 +38,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.davidmerchan.domain.model.HomeComicsListDomain.HomeComic
-import com.davidmerchan.home.presentation.intents.HomeUiIntent
+import com.davidmerchan.home.presentation.R
 import kotlin.random.Random
-
-@Composable
-fun HomeScreen(
-    modifier: Modifier = Modifier,
-    homeViewModel: HomeViewModel = hiltViewModel(),
-    onShowComicDetail: (Long) -> Unit,
-    onGoToCart: () -> Unit
-) {
-    val uiState by homeViewModel.uiState.collectAsState()
-
-    LaunchedEffect(Unit) {
-        homeViewModel.handleIntent(HomeUiIntent.LoadHomeComics)
-    }
-
-    Box(
-        modifier = modifier
-            .background(Color.Black)
-            .fillMaxSize()
-            .padding(horizontal = 12.dp)
-    ) {
-        when {
-            uiState.isLoading -> HomeScreenLoading()
-            uiState.data != null -> HomeScreenContent(
-                comics = uiState.data,
-                onShowComicDetail = onShowComicDetail,
-                onGoToCart = onGoToCart
-            )
-
-            uiState.error != null -> HomeScreenError(error = uiState.error)
-        }
-    }
-}
-
-@Composable
-fun HomeScreenLoading(modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        CircularProgressIndicator()
-        Text(text = stringResource(id = R.string.home_load_comics))
-    }
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -116,7 +67,7 @@ fun HomeScreenContent(
             }
         ) { innerPadding ->
             LazyColumn(
-                modifier = modifier
+                modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding)
                     .padding(12.dp)
@@ -137,16 +88,6 @@ fun HomeScreenContent(
     }
 }
 
-@Composable
-fun HomeScreenError(modifier: Modifier = Modifier, error: String?) {
-    Column(
-        modifier = modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(text = error ?: stringResource(id = R.string.home_error_comics))
-    }
-}
 
 @Composable
 fun HomeComicCard(comic: HomeComic, onShowComicDetail: (Long) -> Unit) {
@@ -220,7 +161,7 @@ fun generateRandomGradientColors(): List<Color> {
 
 @Preview
 @Composable
-private fun HomeScreenContentPreview() {
+internal fun HomeScreenContentPreview() {
     MaterialTheme {
         HomeScreenContent(
             comics = emptyList(),

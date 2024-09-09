@@ -1,4 +1,4 @@
-package com.davidmerchan.presentation
+package com.davidmerchan.presentation.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,7 +17,6 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -26,8 +25,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,59 +35,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.davidmerchan.core.model.toMoney
 import com.davidmerchan.domain.model.ComicDetailModel
-import com.davidmerchan.presentation.intent.ComicDetailUiIntent
-
-@Composable
-fun ComicDetailScreen(
-    comicId: Long,
-    modifier: Modifier = Modifier,
-    comicDetailViewModel: ComicDetailViewModel = hiltViewModel(),
-    onBackPressed: () -> Unit,
-    onGoToCart: () -> Unit
-) {
-    val state = comicDetailViewModel.uiState.collectAsState()
-    LaunchedEffect(Unit) {
-        comicDetailViewModel.handleEvent(ComicDetailUiIntent.LoadComicDetail(comicId))
-    }
-
-    when {
-        state.value.isLoading -> ComicDetailLoading()
-        state.value.error != null -> ComicDetailError(error = state.value.error!!)
-        state.value.comicData != null -> ComicDetailContent(
-            modifier = modifier,
-            comicDetail = state.value.comicData!!,
-            onBackPressed = onBackPressed,
-            onGoToCart = onGoToCart,
-            onAddToCart = {
-                state.value.comicData?.let {
-                    comicDetailViewModel.handleEvent(ComicDetailUiIntent.AddToCart(it))
-                }
-            },
-            onRemoveFromCart = {
-                state.value.comicData?.let {
-                    comicDetailViewModel.handleEvent(ComicDetailUiIntent.RemoveFromCart(it.id))
-                }
-            }
-        )
-
-        else -> ComicDetailLoading()
-    }
-}
-
-@Composable
-fun ComicDetailLoading() {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        CircularProgressIndicator()
-    }
-}
+import com.davidmerchan.presentation.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -260,11 +208,6 @@ fun ComicDetailContent(
     }
 }
 
-@Composable
-fun ComicDetailError(error: String) {
-    Text(text = error)
-}
-
 @Preview
 @Composable
 internal fun ComicDetailContentPreview() {
@@ -288,3 +231,4 @@ internal fun ComicDetailContentPreview() {
         )
     }
 }
+
