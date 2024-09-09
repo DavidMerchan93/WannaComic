@@ -1,7 +1,7 @@
 package com.davidmerchan.domain.useCase
 
 import com.davidmerchan.core.model.Resource
-import com.davidmerchan.domain.entity.homeComic.HomeComicsListDomain
+import com.davidmerchan.domain.model.HomeComicsListDomain
 import com.davidmerchan.domain.repository.HomeComicsRepository
 import javax.inject.Inject
 

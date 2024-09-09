@@ -43,9 +43,9 @@ android {
 dependencies {
 
     implementation(project(":core"))
-    implementation(project(":feature:home:data"))
-    implementation(project(":feature:home:domain"))
-    implementation(project(":feature:home:di"))
+    implementation(project(":feature:detail:data"))
+    implementation(project(":feature:detail:domain"))
+    implementation(project(":feature:detail:di"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

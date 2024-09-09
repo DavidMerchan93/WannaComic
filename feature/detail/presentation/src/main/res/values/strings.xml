@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="comic_detail_editors_title">EDITORES</string>
+    <string name="comic_detail_synopsis_title">SINOPSIS</string>
+    <string name="comic_detail_buy_button">COMPRAR</string>
+    <string name="comic_detail_delete_button">ELIMINAR</string>
+    <string name="comic_detail_pages_title">Paginas:</string>
+    <string name="comic_detail_price_title">Precio:</string>
+</resources>

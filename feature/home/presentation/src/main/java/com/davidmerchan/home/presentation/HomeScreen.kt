@@ -38,7 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.davidmerchan.domain.entity.homeComic.HomeComicsListDomain.HomeComic
+import com.davidmerchan.domain.model.HomeComicsListDomain.HomeComic
 import com.davidmerchan.home.presentation.intents.HomeUiIntent
 import kotlin.random.Random
 

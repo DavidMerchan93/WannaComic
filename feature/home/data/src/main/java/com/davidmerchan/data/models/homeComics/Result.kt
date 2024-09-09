@@ -1,6 +1,6 @@
 package com.davidmerchan.data.models.homeComics
 
-import com.davidmerchan.domain.entity.homeComic.HomeComicsListDomain
+import com.davidmerchan.domain.model.HomeComicsListDomain
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

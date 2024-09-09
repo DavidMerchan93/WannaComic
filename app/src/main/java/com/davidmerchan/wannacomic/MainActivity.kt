@@ -4,9 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -30,9 +28,7 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             WannaComicTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Box(modifier = Modifier.padding(innerPadding)) {
-                        MainNavigation(navController = navController)
-                    }
+                    MainNavigation(navController = navController)
                 }
             }
         }
@@ -51,7 +47,9 @@ fun MainNavigation(
         }
         composable<Screen.ComicDetail> { backStackEntry ->
             val detail = backStackEntry.toRoute<Screen.ComicDetail>()
-            ComicDetailScreen(comicId = detail.id)
+            ComicDetailScreen(comicId = detail.id) {
+                navController.popBackStack()
+            }
         }
         composable<Screen.ShoppingCart> {
             ShoppingCartScreen()

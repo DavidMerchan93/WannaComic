@@ -1,6 +1,6 @@
 package com.davidmerchan.home.presentation.states
 
-import com.davidmerchan.domain.entity.homeComic.HomeComicsListDomain.HomeComic
+import com.davidmerchan.domain.model.HomeComicsListDomain.HomeComic
 
 data class HomeUiState(
     val isLoading: Boolean = false,

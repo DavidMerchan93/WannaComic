@@ -1,4 +1,4 @@
-package com.davidmerchan.domain.entity.homeComic
+package com.davidmerchan.domain.model
 
 data class HomeComicsListDomain(
     val comics: List<HomeComic>

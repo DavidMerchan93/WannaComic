@@ -2,38 +2,38 @@ package com.davidmerchan.data.repository
 
 import com.davidmerchan.core.model.IoDispatcher
 import com.davidmerchan.core.model.Resource
-import com.davidmerchan.data.models.homeComics.HomeComicsDataResponse
-import com.davidmerchan.domain.model.HomeComicsListDomain
-import com.davidmerchan.domain.repository.HomeComicsRepository
+import com.davidmerchan.data.model.ComicDetailResponse
+import com.davidmerchan.domain.model.ComicDetailModel
+import com.davidmerchan.domain.repository.ComicDetailRepository
 import com.davidmerchan.network.ApiManager
 import com.davidmerchan.network.model.GeneralResponse
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class HomeComicsRepositoryImpl @Inject constructor(
+class ComicDetailRepositoryImpl @Inject constructor(
     private val apiManager: ApiManager,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
-) : HomeComicsRepository {
-    override suspend fun getComicsHome(): Resource<HomeComicsListDomain> {
-        val serializer = GeneralResponse.serializer(HomeComicsDataResponse.serializer())
+) : ComicDetailRepository {
+    override suspend fun getComicDetail(id: Long): Resource<ComicDetailModel?> {
+        val serializer = GeneralResponse.serializer(ComicDetailResponse.serializer())
         val response = withContext(ioDispatcher) {
             apiManager.get(
-                endpoint = ENDPOINT,
+                endpoint = "${ENDPOINT}/${id}",
                 serializer = serializer
             )
         }
         return when {
             response.isSuccess -> {
                 response.getOrNull()?.let {
-                    Resource.Success(it.data.toDomain())
-                } ?: run {
+                    Resource.Success(it.data.toDomain(it.copyright))
+                }?: run {
                     Resource.Error("General Error")
                 }
             }
 
             response.isFailure -> {
-                Resource.Error(response.exceptionOrNull()?.message ?: "General Error")
+                Resource.Error(response.exceptionOrNull()?.message?: "General Error")
             }
 
             else -> {
