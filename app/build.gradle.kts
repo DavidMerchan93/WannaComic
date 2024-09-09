@@ -57,6 +57,7 @@ dependencies {
     implementation(project(":feature:home:presentation"))
     implementation(project(":feature:shopping:presentation"))
     implementation(project(":feature:detail:presentation"))
+    implementation(project(":database"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -73,8 +74,10 @@ dependencies {
     implementation(libs.hilt.androidx.viewmodel)
     implementation(libs.hilt.kotlinx.coroutine)
 
+    // Coil
     implementation(libs.coil.compose)
 
+    // Compose
     implementation(libs.ktor.ktor.serialization.kotlinx.json)
     implementation(libs.androidx.navigation.compose)
 }

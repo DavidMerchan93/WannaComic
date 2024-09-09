@@ -28,5 +28,4 @@ class WannaApplication : Application(), ImageLoaderFactory {
             .respectCacheHeaders(false)
             .build()
     }
-
 }

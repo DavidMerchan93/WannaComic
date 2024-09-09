@@ -9,5 +9,6 @@ data class ComicDetailModel(
     val description: String,
     val price: Double,
     val isAvailable: Boolean,
-    val copyright: String
+    val copyright: String,
+    val hasInCart: Boolean = false
 )

@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -47,7 +48,8 @@ fun ComicDetailScreen(
     comicId: Long,
     modifier: Modifier = Modifier,
     comicDetailViewModel: ComicDetailViewModel = hiltViewModel(),
-    onBackPressed: () -> Unit
+    onBackPressed: () -> Unit,
+    onGoToCart: () -> Unit
 ) {
     val state = comicDetailViewModel.uiState.collectAsState()
     LaunchedEffect(Unit) {
@@ -61,9 +63,15 @@ fun ComicDetailScreen(
             modifier = modifier,
             comicDetail = state.value.comicData!!,
             onBackPressed = onBackPressed,
+            onGoToCart = onGoToCart,
             onAddToCart = {
                 state.value.comicData?.let {
                     comicDetailViewModel.handleEvent(ComicDetailUiIntent.AddToCart(it))
+                }
+            },
+            onRemoveFromCart = {
+                state.value.comicData?.let {
+                    comicDetailViewModel.handleEvent(ComicDetailUiIntent.RemoveFromCart(it.id))
                 }
             }
         )
@@ -83,7 +91,9 @@ fun ComicDetailContent(
     modifier: Modifier = Modifier,
     comicDetail: ComicDetailModel,
     onBackPressed: () -> Unit,
-    onAddToCart: () -> Unit
+    onAddToCart: () -> Unit,
+    onRemoveFromCart: () -> Unit,
+    onGoToCart: () -> Unit
 ) {
     Scaffold(
         modifier = modifier.fillMaxSize(),
@@ -93,6 +103,11 @@ fun ComicDetailContent(
                 navigationIcon = {
                     IconButton(onClick = onBackPressed) {
                         Icon(Icons.AutoMirrored.Default.ArrowBack, contentDescription = "Back")
+                    }
+                },
+                actions = {
+                    IconButton(onClick = onGoToCart) {
+                        Icon(Icons.Filled.ShoppingCart, contentDescription = "Add to Cart")
                     }
                 }
             )
@@ -205,7 +220,13 @@ fun ComicDetailContent(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Button(
-                    onClick = onAddToCart,
+                    onClick = {
+                        if (comicDetail.hasInCart) {
+                            onRemoveFromCart()
+                        } else {
+                            onAddToCart()
+                        }
+                    },
                     colors = ButtonDefaults.buttonColors(Color.Red),
                     shape = RoundedCornerShape(50),
                     modifier = Modifier
@@ -214,7 +235,11 @@ fun ComicDetailContent(
                         .height(56.dp)
                 ) {
                     Text(
-                        text = stringResource(id = R.string.comic_detail_buy_button),
+                        text = if (comicDetail.hasInCart) {
+                            stringResource(id = R.string.comic_detail_delete_button)
+                        } else {
+                            stringResource(id = R.string.comic_detail_buy_button)
+                        },
                         color = Color.White,
                         fontSize = 16.sp
                     )
@@ -246,7 +271,9 @@ internal fun ComicDetailContentPreview() {
                 author = emptyList()
             ),
             onBackPressed = {},
-            onAddToCart = {}
+            onAddToCart = {},
+            onGoToCart = {},
+            onRemoveFromCart = {}
         )
     }
 }

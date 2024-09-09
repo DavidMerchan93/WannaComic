@@ -3,7 +3,6 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
-    //alias(libs.plugins.kotlinx.serialization)
     id("kotlinx-serialization")
 }
 
@@ -43,22 +42,12 @@ dependencies {
     implementation(libs.material)
 
     // Ktor client
-    /*implementation(libs.ktor.client.core)
-    implementation(libs.ktor.client.android)
-    implementation(libs.ktor.client.okhttp)
-    implementation(libs.ktor.client.content.negotiation)
-    implementation(libs.ktor.serialization.kotlinx.json)
-    implementation(libs.ktor.client.logging)
-
-    // Kotlin Coroutines
-    implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.kotlinx.coroutines.android*/
-    implementation(platform("io.ktor:ktor-bom:2.3.12"))
-    implementation("io.ktor:ktor-client-android")
-    implementation("io.ktor:ktor-client-serialization")
-    implementation("io.ktor:ktor-client-logging")
-    implementation("io.ktor:ktor-client-content-negotiation")
-    implementation("io.ktor:ktor-serialization-kotlinx-json")
+    implementation(platform(libs.ktor.bom))
+    implementation(libs.ktor.ktor.client.android)
+    implementation(libs.ktor.client.serialization)
+    implementation(libs.ktor.ktor.client.logging)
+    implementation(libs.ktor.ktor.client.content.negotiation)
+    implementation(libs.io.ktor.ktor.serialization.kotlinx.json)
 
     // Hilt
     implementation(libs.hilt.android)

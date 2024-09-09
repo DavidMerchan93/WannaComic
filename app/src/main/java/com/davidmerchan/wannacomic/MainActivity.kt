@@ -47,9 +47,15 @@ fun MainNavigation(
         }
         composable<Screen.ComicDetail> { backStackEntry ->
             val detail = backStackEntry.toRoute<Screen.ComicDetail>()
-            ComicDetailScreen(comicId = detail.id) {
-                navController.popBackStack()
-            }
+            ComicDetailScreen(
+                comicId = detail.id,
+                onBackPressed = {
+                    navController.popBackStack()
+                },
+                onGoToCart = {
+                    navController.navigate(Screen.ShoppingCart)
+                }
+            )
         }
         composable<Screen.ShoppingCart> {
             ShoppingCartScreen()

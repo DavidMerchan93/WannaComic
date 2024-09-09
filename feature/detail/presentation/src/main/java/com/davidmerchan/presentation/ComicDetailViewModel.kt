@@ -4,7 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.davidmerchan.core.model.Resource
 import com.davidmerchan.domain.model.ComicDetailModel
+import com.davidmerchan.domain.useCase.AddComicToCartUseCase
 import com.davidmerchan.domain.useCase.GetComicDetailUseCase
+import com.davidmerchan.domain.useCase.RemoveComicFromCartUseCase
 import com.davidmerchan.presentation.intent.ComicDetailUiIntent
 import com.davidmerchan.presentation.state.ComicDetailUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +18,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ComicDetailViewModel @Inject constructor(
-    private val getComicDetailUseCase: GetComicDetailUseCase
+    private val getComicDetailUseCase: GetComicDetailUseCase,
+    private val addToCartUseCase: AddComicToCartUseCase,
+    private val removeComicFromCartUseCase: RemoveComicFromCartUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ComicDetailUiState())
@@ -49,11 +53,15 @@ class ComicDetailViewModel @Inject constructor(
     }
 
     private fun addToCart(comicDetailModel: ComicDetailModel) {
-
+        viewModelScope.launch {
+            addToCartUseCase(comicDetailModel)
+        }
     }
 
     private fun removeFromCart(id: Long) {
-
+        viewModelScope.launch {
+            removeComicFromCartUseCase(id)
+        }
     }
 
     private fun addToFavorites(id: Long) {

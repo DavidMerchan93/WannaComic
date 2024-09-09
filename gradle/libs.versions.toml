@@ -1,23 +1,18 @@
 [versions]
 agp = "8.5.1"
 coilCompose = "2.7.0"
-gson = "2.10.1"
 hiltNavigationCompose = "1.2.0"
 kotlin = "1.9.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
-kotlinxCoroutinesAndroid = "1.8.0"
-kotlinxCoroutinesCore = "1.8.0"
 ktorBom = "2.3.12"
-ktorClientGson = "2.3.3"
 lifecycleRuntimeKtx = "2.6.1"
 activityCompose = "1.8.0"
 composeBom = "2024.04.01"
 appcompat = "1.7.0"
 material = "1.12.0"
-ktor_version = "2.3.12"
 ksp_version = "1.9.0-1.0.13"
 navigationCompose = "2.8.0"
 room_version = "2.6.1"
@@ -25,7 +20,6 @@ datastore_version = "1.1.1"
 hiltAndroid = "2.48"
 hiltCompose = "2.6.1"
 hiltCoroutines = "1.7.3"
-serialization_version = "1.7.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -33,12 +27,12 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
-gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroid" }
 hilt-androidx-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "hiltCompose" }
 hilt-kotlinx-coroutine = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "hiltCoroutines" }
 
+io-ktor-ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -47,23 +41,15 @@ androidx-activity-compose = { group = "androidx.activity", name = "activity-comp
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
-androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
-androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
-androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
-kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
 ktor-bom = { module = "io.ktor:ktor-bom", version.ref = "ktorBom" }
-ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor_version" }
-ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor_version" }
-ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor_version" }
-ktor-client-gson = { module = "io.ktor:ktor-client-gson", version.ref = "ktorClientGson" }
-ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor_version" }
-ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor_version" }
+ktor-client-serialization = { module = "io.ktor:ktor-client-serialization" }
+ktor-ktor-client-android = { module = "io.ktor:ktor-client-android" }
+ktor-ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation" }
+ktor-ktor-client-logging = { module = "io.ktor:ktor-client-logging" }
 ktor-ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json" }
-ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor_version" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime" , version.ref="room_version" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler" , version.ref="room_version" }

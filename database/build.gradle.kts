@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.ksp)
+    id("kotlinx-serialization")
 }
 
 android {
@@ -50,5 +51,11 @@ dependencies {
 
     // DATASTORE
     implementation(libs.androidx.datastore)
+
+    // Hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
+    implementation(libs.hilt.androidx.viewmodel)
+    implementation(libs.hilt.kotlinx.coroutine)
 
 }
