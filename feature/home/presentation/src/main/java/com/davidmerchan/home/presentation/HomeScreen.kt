@@ -15,11 +15,18 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -46,7 +53,8 @@ import kotlin.random.Random
 fun HomeScreen(
     modifier: Modifier = Modifier,
     homeViewModel: HomeViewModel = hiltViewModel(),
-    onShowComicDetail: (Long) -> Unit
+    onShowComicDetail: (Long) -> Unit,
+    onGoToCart: () -> Unit
 ) {
     val uiState by homeViewModel.uiState.collectAsState()
 
@@ -64,7 +72,8 @@ fun HomeScreen(
             uiState.isLoading -> HomeScreenLoading()
             uiState.data != null -> HomeScreenContent(
                 comics = uiState.data,
-                onShowComicDetail = onShowComicDetail
+                onShowComicDetail = onShowComicDetail,
+                onGoToCart = onGoToCart
             )
 
             uiState.error != null -> HomeScreenError(error = uiState.error)
@@ -84,20 +93,37 @@ fun HomeScreenLoading(modifier: Modifier = Modifier) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreenContent(
     modifier: Modifier = Modifier,
     comics: List<HomeComic>?,
-    onShowComicDetail: (Long) -> Unit
+    onShowComicDetail: (Long) -> Unit,
+    onGoToCart: () -> Unit
 ) {
     if (comics.isNullOrEmpty().not()) {
-        LazyColumn(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(vertical = 12.dp)
-        ) {
-            items(comics!!) { item ->
-                HomeComicCard(item, onShowComicDetail)
+        Scaffold(
+            modifier = modifier.fillMaxSize(),
+            topBar = {
+                TopAppBar(
+                    title = { Text(text = stringResource(id = R.string.home_title)) },
+                    actions = {
+                        IconButton(onClick = onGoToCart) {
+                            Icon(Icons.Filled.ShoppingCart, contentDescription = "Add to Cart")
+                        }
+                    }
+                )
+            }
+        ) { innerPadding ->
+            LazyColumn(
+                modifier = modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+                    .padding(12.dp)
+            ) {
+                items(comics!!) { item ->
+                    HomeComicCard(item, onShowComicDetail)
+                }
             }
         }
     } else {
@@ -198,7 +224,8 @@ private fun HomeScreenContentPreview() {
     MaterialTheme {
         HomeScreenContent(
             comics = emptyList(),
-            onShowComicDetail = {}
+            onShowComicDetail = {},
+            onGoToCart = {}
         )
     }
 }

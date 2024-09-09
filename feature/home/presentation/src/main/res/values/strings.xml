@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="home_title">WannaComics</string>
     <string name="home_load_comics">Cargando los comics ...</string>
     <string name="home_empty_comics">No encontramos comics :(</string>
     <string name="home_error_comics">Error al cargar los datos  :(</string>

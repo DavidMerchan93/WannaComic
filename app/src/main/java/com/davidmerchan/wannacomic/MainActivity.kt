@@ -41,9 +41,14 @@ fun MainNavigation(
 ) {
     NavHost(navController = navController, startDestination = Screen.Home) {
         composable<Screen.Home> {
-            HomeScreen { id ->
-                navController.navigate(Screen.ComicDetail(id))
-            }
+            HomeScreen(
+                onShowComicDetail = { id ->
+                    navController.navigate(Screen.ComicDetail(id))
+                },
+                onGoToCart = {
+                    navController.navigate(Screen.ShoppingCart)
+                }
+            )
         }
         composable<Screen.ComicDetail> { backStackEntry ->
             val detail = backStackEntry.toRoute<Screen.ComicDetail>()
