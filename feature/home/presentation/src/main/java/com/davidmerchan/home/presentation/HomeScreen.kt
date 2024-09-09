@@ -1,6 +1,7 @@
 package com.davidmerchan.home.presentation
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -44,7 +45,8 @@ import kotlin.random.Random
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    homeViewModel: HomeViewModel = hiltViewModel()
+    homeViewModel: HomeViewModel = hiltViewModel(),
+    onShowComicDetail: (Long) -> Unit
 ) {
     val uiState by homeViewModel.uiState.collectAsState()
 
@@ -60,7 +62,11 @@ fun HomeScreen(
     ) {
         when {
             uiState.isLoading -> HomeScreenLoading()
-            uiState.data != null -> HomeScreenContent(comics = uiState.data)
+            uiState.data != null -> HomeScreenContent(
+                comics = uiState.data,
+                onShowComicDetail = onShowComicDetail
+            )
+
             uiState.error != null -> HomeScreenError(error = uiState.error)
         }
     }
@@ -79,7 +85,11 @@ fun HomeScreenLoading(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun HomeScreenContent(modifier: Modifier = Modifier, comics: List<HomeComic>?) {
+fun HomeScreenContent(
+    modifier: Modifier = Modifier,
+    comics: List<HomeComic>?,
+    onShowComicDetail: (Long) -> Unit
+) {
     if (comics.isNullOrEmpty().not()) {
         LazyColumn(
             modifier = modifier
@@ -87,7 +97,7 @@ fun HomeScreenContent(modifier: Modifier = Modifier, comics: List<HomeComic>?) {
                 .padding(vertical = 12.dp)
         ) {
             items(comics!!) { item ->
-                HomeComicCard(item)
+                HomeComicCard(item, onShowComicDetail)
             }
         }
     } else {
@@ -113,14 +123,15 @@ fun HomeScreenError(modifier: Modifier = Modifier, error: String?) {
 }
 
 @Composable
-fun HomeComicCard(comic: HomeComic) {
+fun HomeComicCard(comic: HomeComic, onShowComicDetail: (Long) -> Unit) {
     val colors = generateRandomGradientColors()
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .height(150.dp)
-            .padding(vertical = 4.dp),
+            .padding(vertical = 4.dp)
+            .clickable { onShowComicDetail(comic.id) },
         elevation = CardDefaults.cardElevation()
     ) {
         Box(
@@ -186,7 +197,8 @@ fun generateRandomGradientColors(): List<Color> {
 private fun HomeScreenContentPreview() {
     MaterialTheme {
         HomeScreenContent(
-            comics = emptyList()
+            comics = emptyList(),
+            onShowComicDetail = {}
         )
     }
 }

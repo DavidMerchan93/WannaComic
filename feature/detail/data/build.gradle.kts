@@ -1,9 +1,6 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.hilt)
-    id("kotlinx-serialization")
 }
 
 android {
@@ -37,20 +34,10 @@ android {
 
 dependencies {
 
-    implementation(project(":core"))
-    implementation(project(":database"))
-    implementation(project(":network"))
-    implementation(project(":feature:home:domain"))
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    implementation(platform(libs.ktor.bom))
-    implementation(libs.ktor.ktor.serialization.kotlinx.json)
-
-    // Hilt
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.android.compiler)
-    implementation(libs.hilt.androidx.viewmodel)
-    implementation(libs.hilt.kotlinx.coroutine)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
 }

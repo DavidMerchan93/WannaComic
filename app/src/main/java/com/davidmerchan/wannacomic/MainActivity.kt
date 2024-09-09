@@ -4,11 +4,20 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.davidmerchan.home.presentation.HomeScreen
+import com.davidmerchan.presentation.ComicDetailScreen
+import com.davidmerchan.presentation.ShoppingCartScreen
 import com.davidmerchan.wannacomic.ui.theme.WannaComicTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -18,15 +27,34 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val navController = rememberNavController()
             WannaComicTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    HomeScreen(
-                        modifier = Modifier.padding(
-                            innerPadding
-                        )
-                    )
+                    Box(modifier = Modifier.padding(innerPadding)) {
+                        MainNavigation(navController = navController)
+                    }
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun MainNavigation(
+    navController: NavHostController
+) {
+    NavHost(navController = navController, startDestination = Screen.Home) {
+        composable<Screen.Home> {
+            HomeScreen { id ->
+                navController.navigate(Screen.ComicDetail(id))
+            }
+        }
+        composable<Screen.ComicDetail> { backStackEntry ->
+            val detail = backStackEntry.toRoute<Screen.ComicDetail>()
+            ComicDetailScreen(comicId = detail.id)
+        }
+        composable<Screen.ShoppingCart> {
+            ShoppingCartScreen()
         }
     }
 }
