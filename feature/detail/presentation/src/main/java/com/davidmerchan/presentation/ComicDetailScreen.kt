@@ -17,6 +17,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -82,7 +83,13 @@ fun ComicDetailScreen(
 
 @Composable
 fun ComicDetailLoading() {
-    Text("Loading...")
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        CircularProgressIndicator()
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -227,7 +234,11 @@ fun ComicDetailContent(
                             onAddToCart()
                         }
                     },
-                    colors = ButtonDefaults.buttonColors(Color.Red),
+                    colors = if (comicDetail.hasInCart) {
+                        ButtonDefaults.buttonColors(Color.Red)
+                    } else {
+                        ButtonDefaults.buttonColors(Color.Green)
+                    },
                     shape = RoundedCornerShape(50),
                     modifier = Modifier
                         .fillMaxWidth()

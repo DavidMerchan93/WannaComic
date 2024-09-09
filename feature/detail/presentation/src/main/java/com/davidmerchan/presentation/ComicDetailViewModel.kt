@@ -37,6 +37,7 @@ class ComicDetailViewModel @Inject constructor(
     }
 
     private fun loadComicDetail(comicId: Long) {
+        _uiState.value = ComicDetailUiState(isLoading = true)
         viewModelScope.launch {
             when (val result = getComicDetailUseCase(comicId)) {
                 is Resource.Error -> {
@@ -55,12 +56,14 @@ class ComicDetailViewModel @Inject constructor(
     private fun addToCart(comicDetailModel: ComicDetailModel) {
         viewModelScope.launch {
             addToCartUseCase(comicDetailModel)
+            loadComicDetail(comicDetailModel.id)
         }
     }
 
     private fun removeFromCart(id: Long) {
         viewModelScope.launch {
             removeComicFromCartUseCase(id)
+            loadComicDetail(id)
         }
     }
 
