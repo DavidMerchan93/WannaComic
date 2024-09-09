@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.davidmerchan.data"
+    namespace = "com.davidmerchan.di"
     compileSdk = 34
 
     defaultConfig {
@@ -26,14 +26,12 @@ android {
 dependencies {
 
     implementation(project(":feature:shopping:domain"))
+    implementation(project(":feature:shopping:data"))
     implementation(project(":core"))
     implementation(project(":database"))
-    implementation(project(":network"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
 
     // Hilt
     implementation(libs.hilt.android)

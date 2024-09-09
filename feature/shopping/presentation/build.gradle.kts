@@ -44,6 +44,7 @@ dependencies {
 
     implementation(project(":core"))
     implementation(project(":feature:shopping:domain"))
+    implementation(project(":feature:shopping:di"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
