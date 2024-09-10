@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="shopping_cart_empty_title">El carrito vacio :(</string>
+    <string name="shopping_cart_price_title">Precio: </string>
+    <string name="shopping_cart_buy_button">COMPRAR</string>
+    <string name="shopping_cart_buy_message">Compra realizada con éxito</string>
+    <string name="shopping_cart_complete_button">Gracias</string>
+</resources>

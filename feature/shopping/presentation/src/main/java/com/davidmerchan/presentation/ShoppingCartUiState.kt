@@ -6,5 +6,6 @@ data class ShoppingCartUiState(
     val isLoading: Boolean = false,
     val cartItems: List<ShoppingCartItem> = emptyList(),
     val isCartEmpty: Boolean = false,
+    val isPaid: Boolean = false,
     val error: String? = null
 )

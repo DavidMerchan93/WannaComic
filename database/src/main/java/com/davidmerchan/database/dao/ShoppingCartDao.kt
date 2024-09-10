@@ -19,4 +19,7 @@ interface ShoppingCartDao {
 
     @Query("DELETE FROM CartComicEntity WHERE cid=:comicId")
     fun removeById(comicId: Long)
+
+    @Query("DELETE FROM CartComicEntity")
+    fun clearCart()
 }

@@ -25,6 +25,28 @@ class ShoppingCartDataRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun clearShoppingCart(): Boolean {
+        return try {
+            withContext(ioDispatcher) {
+                shoppingCartDao.clearCart()
+            }
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    override suspend fun removeComicFromCart(comicId: Long): Boolean {
+        return try {
+            withContext(ioDispatcher) {
+                shoppingCartDao.removeById(comicId)
+            }
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
     private fun List<CartComicEntity>.mapShoppingCartResponse(): List<ShoppingCartItem> {
         return this.map {
             ShoppingCartItem(

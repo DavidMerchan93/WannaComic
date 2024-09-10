@@ -3,6 +3,8 @@ package com.davidmerchan.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.davidmerchan.core.model.Resource
+import com.davidmerchan.domain.useCase.ClearShoppingCartUseCase
+import com.davidmerchan.domain.useCase.DeleteComicFromCartUseCase
 import com.davidmerchan.domain.useCase.GetShoppingCartUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +16,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ShoppingCartViewModel @Inject constructor(
-    private val getShoppingCartUseCase: GetShoppingCartUseCase
+    private val getShoppingCartUseCase: GetShoppingCartUseCase,
+    private val deleteComicFromCartUseCase: DeleteComicFromCartUseCase,
+    private val clearShoppingCartUseCase: ClearShoppingCartUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ShoppingCartUiState())
@@ -23,7 +27,17 @@ class ShoppingCartViewModel @Inject constructor(
     fun handleEvent(event: ShoppingCartUiIntent) {
         when (event) {
             ShoppingCartUiIntent.LoadShoppingCart -> getShoppingCart()
-            is ShoppingCartUiIntent.RemoveComicFromCart -> {}
+            is ShoppingCartUiIntent.RemoveComicFromCart -> {
+                removeComicFromCart(event.comicId)
+            }
+
+            ShoppingCartUiIntent.ClearCart -> {
+                clearShoppingCart()
+            }
+
+            ShoppingCartUiIntent.Payment -> {
+                makePayment()
+            }
         }
     }
 
@@ -56,4 +70,29 @@ class ShoppingCartViewModel @Inject constructor(
         }
     }
 
+    private fun clearShoppingCart() {
+        _uiState.value = ShoppingCartUiState(isLoading = true)
+        viewModelScope.launch {
+            clearShoppingCartUseCase()
+            getShoppingCart()
+        }
+    }
+
+    private fun removeComicFromCart(comicId: Long) {
+        _uiState.value = ShoppingCartUiState(isLoading = true)
+        viewModelScope.launch {
+            deleteComicFromCartUseCase(comicId)
+            getShoppingCart()
+        }
+    }
+
+    private fun makePayment() {
+        _uiState.value = ShoppingCartUiState(isLoading = true)
+        viewModelScope.launch {
+            clearShoppingCartUseCase()
+            _uiState.update {
+                ShoppingCartUiState(isPaid = true)
+            }
+        }
+    }
 }
