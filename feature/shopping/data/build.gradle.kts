@@ -12,6 +12,7 @@ android {
     defaultConfig {
         minSdk = 24
         consumerProguardFiles("consumer-rules.pro")
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     compileOptions {
@@ -42,16 +43,25 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    androidTestImplementation(libs.androidx.junit)
 
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
 
     // MockK
-    testImplementation(libs.mockk)
-    testImplementation(libs.mockk.agent)
-    testImplementation(libs.kotlinx.coroutines.test)
+    // JUnit 4
     testImplementation(libs.junit)
-    androidTestImplementation(libs.mockk.android)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+
+    // MockK
+    testImplementation("io.mockk:mockk:1.13.5")
+    androidTestImplementation("io.mockk:mockk-android:1.13.5")
+    testImplementation("io.mockk:mockk-agent-jvm:1.13.5")
+
+    // Para correr las pruebas en un ambiente de Android
+    testImplementation("androidx.test:core:1.5.0")
+
+    // Coroutines si tu proyecto las usa
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.2")
 }

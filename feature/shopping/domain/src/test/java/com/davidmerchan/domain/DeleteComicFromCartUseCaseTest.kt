@@ -1,6 +1,7 @@
-package com.davidmerchan.domain.useCase
+package com.davidmerchan.domain
 
 import com.davidmerchan.domain.repository.ShoppingCartDataRepository
+import com.davidmerchan.domain.useCase.DeleteComicFromCartUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.confirmVerified
@@ -11,14 +12,15 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
-class ClearShoppingCartUseCaseTest {
+class DeleteComicFromCartUseCaseTest {
+
     private val shoppingCartDataRepository: ShoppingCartDataRepository = mockk()
 
-    private lateinit var clearShoppingCartUseCase: ClearShoppingCartUseCase
+    private lateinit var deleteComicFromCartUseCase: DeleteComicFromCartUseCase
 
     @Before
     fun setUp() {
-        clearShoppingCartUseCase = ClearShoppingCartUseCase(shoppingCartDataRepository)
+        deleteComicFromCartUseCase = DeleteComicFromCartUseCase(shoppingCartDataRepository)
     }
 
     @After
@@ -27,15 +29,16 @@ class ClearShoppingCartUseCaseTest {
     }
 
     @Test
-    fun test() = runBlocking {
+    fun `should delete comic from cart when repository returns true`() = runBlocking {
         // Given
-        coEvery { shoppingCartDataRepository.clearShoppingCart() } returns true
+        coEvery { shoppingCartDataRepository.removeComicFromCart(1L) } returns true
 
         // When
-        val result = clearShoppingCartUseCase()
+        val result = deleteComicFromCartUseCase(1L)
 
         // Then
-        coVerify { shoppingCartDataRepository.clearShoppingCart() }
+        coVerify { shoppingCartDataRepository.removeComicFromCart(1L) }
         assertTrue(result)
     }
+
 }
