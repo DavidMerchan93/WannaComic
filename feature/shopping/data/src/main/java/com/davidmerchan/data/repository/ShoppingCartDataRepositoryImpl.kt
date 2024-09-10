@@ -14,6 +14,16 @@ class ShoppingCartDataRepositoryImpl @Inject constructor(
     private val shoppingCartDao: ShoppingCartDao,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ShoppingCartDataRepository {
+
+    /**
+     * Retrieves the current state of the shopping cart from the database.
+     *
+     * @return A [Resource] object containing either a [List] of [ShoppingCartItem] objects or an error message.
+     *
+     * This function uses coroutines to perform the database operation on the IO dispatcher.
+     * If the operation is successful, it maps the response to a list of [ShoppingCartItem] objects and wraps it in a [Resource.Success].
+     * If an exception occurs during the operation, it wraps the error message in a [Resource.Error].
+     */
     override suspend fun getShoppingCart(): Resource<List<ShoppingCartItem>> {
         return try {
             val response = withContext(ioDispatcher) {
@@ -25,6 +35,17 @@ class ShoppingCartDataRepositoryImpl @Inject constructor(
         }
     }
 
+    /**
+     * Clears the shopping cart by removing all items from the database.
+     *
+     * @return A boolean indicating whether the operation was successful.
+     *
+     * This function uses coroutines to perform the database operation on the IO dispatcher.
+     * If the operation is successful, it returns `true`.
+     * If an exception occurs during the operation, it returns `false`.
+     *
+     * @throws Exception If an error occurs during the database operation.
+     */
     override suspend fun clearShoppingCart(): Boolean {
         return try {
             withContext(ioDispatcher) {
@@ -36,6 +57,22 @@ class ShoppingCartDataRepositoryImpl @Inject constructor(
         }
     }
 
+    /**
+     * Removes a comic from the shopping cart based on the provided comic ID.
+     *
+     * @param comicId The unique identifier of the comic to be removed.
+     *
+     * @return A boolean indicating whether the operation was successful.
+     * If the operation is successful, it returns `true`.
+     * If an exception occurs during the operation, it returns `false`.
+     *
+     * This function uses coroutines to perform the database operation on the IO dispatcher.
+     * It attempts to remove the comic with the given [comicId] from the shopping cart.
+     * If the operation is successful, it returns `true`.
+     * If an exception occurs during the operation, it catches the exception and returns `false`.
+     *
+     * @throws Exception If an error occurs during the database operation.
+     */
     override suspend fun removeComicFromCart(comicId: Long): Boolean {
         return try {
             withContext(ioDispatcher) {

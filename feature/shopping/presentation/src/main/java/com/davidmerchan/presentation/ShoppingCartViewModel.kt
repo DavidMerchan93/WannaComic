@@ -35,8 +35,12 @@ class ShoppingCartViewModel @Inject constructor(
                 clearShoppingCart()
             }
 
-            ShoppingCartUiIntent.Payment -> {
-                makePayment()
+            is ShoppingCartUiIntent.ShowPaymentDialog -> {
+                if (event.show) {
+                    makePayment()
+                } else {
+                    getShoppingCart()
+                }
             }
         }
     }

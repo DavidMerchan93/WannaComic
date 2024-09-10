@@ -16,6 +16,18 @@ import io.ktor.http.HttpHeaders
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
+/**
+ * This object provides a single instance of a Ktor HttpClient configured with common networking settings.
+ *
+ * The HttpClient is configured with the following features:
+ * - ContentNegotiation: Uses JSON for content negotiation with the specified Json configuration.
+ * - Logging: Logs all HTTP requests and responses at the ALL log level.
+ * - ResponseObserver: Logs the HTTP status of each response.
+ * - DefaultRequest: Sets the Content-Type header to application/json for all requests.
+ * - HttpTimeout: Sets the request, connect, and socket timeouts to 30 seconds.
+ *
+ * @return A configured HttpClient instance.
+ */
 object KtorHttpClient {
 
     private const val TIME_OUT = 30_000L

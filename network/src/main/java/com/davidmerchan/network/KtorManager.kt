@@ -22,8 +22,16 @@ class KtorManager @Inject constructor(
     private val httpClient: HttpClient
 ): ApiManager {
 
-    val json = Json { ignoreUnknownKeys = true }
+    private val json = Json { ignoreUnknownKeys = true }
 
+    /**
+     * Performs a GET request to the Marvel API with the provided endpoint and deserializes the response into the specified type.
+     *
+     * @param endpoint The API endpoint to be called.
+     * @param serializer The serializer to be used for deserializing the response.
+     * @return A [Result] object containing the deserialized response if the request is successful, or an exception if it fails.
+     * @throws Exception If an error occurs during the request or deserialization process.
+     */
     override suspend fun <T> get(
         endpoint: String,
         serializer: KSerializer<GeneralResponse<T>>
@@ -34,7 +42,7 @@ class KtorManager @Inject constructor(
                 url {
                     protocol = URLProtocol.HTTPS
                     host = BASE_URL
-                    encodedPath = "/v1/public/$endpoint"
+                    encodedPath = "$ENCODE_URL$endpoint"
                     parameters.append("apikey", PUBLIC_KEY)
                     parameters.append("ts",ts.toString())
                     parameters.append("hash",getHash(ts))
@@ -49,6 +57,14 @@ class KtorManager @Inject constructor(
         }
     }
 
+    /**
+     * Performs a POST request to the specified URL with the provided request object and deserializes the response into the specified type.
+     *
+     * @param url The URL to be called.
+     * @param request The request object to be sent in the POST request.
+     * @return A [Result] object containing the status of the response if the request is successful, or an exception if it fails.
+     * @throws Exception If an error occurs during the request or deserialization process.
+     */
     override suspend fun <R, T> post(url: String, request: GeneralRequest<R>): Result<String> {
         return try {
             val response = httpClient.post(url) {
@@ -62,6 +78,13 @@ class KtorManager @Inject constructor(
         }
     }
 
+    /**
+     * Generates a hash using the MD5 algorithm for the Marvel API authentication.
+     *
+     * @param ts The timestamp used in the authentication process.
+     * @return A string representing the generated hash.
+     * @throws NoSuchAlgorithmException If the MD5 algorithm is not available.
+     */
     private fun getHash(ts: Long): String {
         val md = MessageDigest.getInstance("MD5")
         val digest = md.digest((ts.toString() + PRIVATE_KEY + PUBLIC_KEY).toByteArray())
@@ -70,9 +93,10 @@ class KtorManager @Inject constructor(
     }
 
     companion object {
-        private const val BASE_URL = "gateway.marvel.com:443"
         private const val TAG = "KtorManager"
-        private const val PRIVATE_KEY = "3c3a0ca2724af3cb37cb73d3d8f1802a81727348"
-        private const val PUBLIC_KEY = "9a2cb734312c25350fa41f6b91d74768"
+        private const val BASE_URL = BuildConfig.MARVEL_URL
+        private const val ENCODE_URL = BuildConfig.MARVEL_ENCODE_URL
+        private const val PRIVATE_KEY = BuildConfig.MARVEL_PRIVATE_KEY
+        private const val PUBLIC_KEY = BuildConfig.MARVEL_PUBLIC_KEY
     }
 }

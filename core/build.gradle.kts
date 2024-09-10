@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
-    //alias(libs.plugins.kotlinx.serialization)
     id("kotlinx-serialization")
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)

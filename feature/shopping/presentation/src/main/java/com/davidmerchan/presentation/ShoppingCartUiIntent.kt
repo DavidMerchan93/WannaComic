@@ -4,5 +4,5 @@ sealed class ShoppingCartUiIntent {
     data object LoadShoppingCart : ShoppingCartUiIntent()
     data class RemoveComicFromCart(val comicId: Long) : ShoppingCartUiIntent()
     data object ClearCart : ShoppingCartUiIntent()
-    data object Payment : ShoppingCartUiIntent()
+    data class ShowPaymentDialog(val show: Boolean) : ShoppingCartUiIntent()
 }

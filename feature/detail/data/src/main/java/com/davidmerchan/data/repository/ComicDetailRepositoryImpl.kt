@@ -15,6 +15,18 @@ class ComicDetailRepositoryImpl @Inject constructor(
     private val apiManager: ApiManager,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ComicDetailRepository {
+
+    /**
+     * Retrieves the comic detail for the given [id].
+     *
+     * @param id The unique identifier of the comic.
+     *
+     * @return A [Resource] object containing the comic detail data or an error message.
+     *
+     * - If the request is successful, the [Resource] will be [Resource.Success] with the comic detail data.
+     * - If the request fails due to an exception, the [Resource] will be [Resource.Error] with the error message.
+     * - If the request is still in progress, the [Resource] will be [Resource.Loading].
+     */
     override suspend fun getComicDetail(id: Long): Resource<ComicDetailModel?> {
         val serializer = GeneralResponse.serializer(ComicDetailResponse.serializer())
         val response = withContext(ioDispatcher) {

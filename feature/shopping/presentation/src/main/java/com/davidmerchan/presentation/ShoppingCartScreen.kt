@@ -1,6 +1,5 @@
 package com.davidmerchan.presentation
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,6 +17,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -28,6 +28,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -44,7 +45,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.davidmerchan.core.model.toMoney
@@ -75,7 +75,7 @@ fun ShoppingCartScreen(
                     shoppingCartViewModel.handleEvent(ShoppingCartUiIntent.RemoveComicFromCart(it))
                 },
                 onMakePayment = {
-                    shoppingCartViewModel.handleEvent(ShoppingCartUiIntent.Payment)
+                    shoppingCartViewModel.handleEvent(ShoppingCartUiIntent.ShowPaymentDialog(true))
                 },
                 onClearCart = {
                     shoppingCartViewModel.handleEvent(ShoppingCartUiIntent.ClearCart)
@@ -83,8 +83,10 @@ fun ShoppingCartScreen(
             )
 
             error != null -> ErrorScreen(error = error)
-            isPaid -> {
-                CompletePaymentDialog(modifier, onBackPressed)
+        }
+        if (isPaid) {
+            CompletePaymentDialog(modifier) {
+                shoppingCartViewModel.handleEvent(ShoppingCartUiIntent.ShowPaymentDialog(false))
             }
         }
     }
@@ -93,32 +95,30 @@ fun ShoppingCartScreen(
 @Composable
 fun CompletePaymentDialog(
     modifier: Modifier = Modifier,
-    onBackPressed: () -> Unit
+    onCloseDialog: () -> Unit
 ) {
-    Dialog(
-        onDismissRequest = { }
-    ) {
-        Column(
-            modifier = modifier
-                .fillMaxWidth()
-                .background(Color.White)
-                .clip(RoundedCornerShape(10.dp))
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Image(
+    AlertDialog(
+        modifier = modifier,
+        icon = {
+            Icon(
                 imageVector = ImageVector.vectorResource(id = R.drawable.ic_celebration),
                 contentDescription = null
             )
+        },
+        title = {
+            Text(text = "Gracias por tu compra")
+        },
+        text = {
             Text(text = stringResource(id = R.string.shopping_cart_buy_message))
-            Spacer(modifier = Modifier.height(16.dp))
-            Button(
-                onClick = onBackPressed,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.Red,
-                    contentColor = Color.White
-                )
+        },
+        onDismissRequest = {
+
+        },
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    onCloseDialog()
+                }
             ) {
                 Text(
                     text = stringResource(id = R.string.shopping_cart_complete_button),
@@ -126,7 +126,7 @@ fun CompletePaymentDialog(
                 )
             }
         }
-    }
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -271,7 +271,9 @@ fun ShoppingCartEmpty(modifier: Modifier = Modifier, onBackPressed: () -> Unit) 
         }
     ) { innerPadding ->
         Column(
-            modifier = modifier.fillMaxSize().padding(innerPadding),
+            modifier = modifier
+                .fillMaxSize()
+                .padding(innerPadding),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
