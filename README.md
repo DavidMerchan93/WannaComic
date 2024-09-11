@@ -118,3 +118,18 @@ Este proyecto incluye pruebas unitarias utilizando MockK y JUnit 4. Para ejecuta
 - **Instrucciones para ejecutar las pruebas**.
 
 Esto proporciona una visión clara y precisa de cómo funciona el proyecto y cómo configurarlo correctamente.
+
+## Media
+![Captura de la app](media/video.gif)
+
+<div style="display: flex;">
+  <img src="media/1.png" alt="Captura 1" width="300"/>
+  <img src="media/2.png" alt="Captura 2" width="300" style="margin-left: 10px;"/>
+</div>
+<div style="display: flex;">
+  <img src="media/3.png" alt="Captura 3" width="300"/>
+  <img src="media/4.png" alt="Captura 4" width="300" style="margin-left: 10px;"/>
+</div>
+<div style="display: flex;">
+  <img src="media/5.png" alt="Captura 5" width="300"/>
+</div>
