@@ -29,7 +29,7 @@ class ShoppingCartDataRepositoryImpl @Inject constructor(
             val response = withContext(ioDispatcher) {
                 shoppingCartDao.getAll()
             }
-            Resource.Success(response.mapShoppingCartResponse())
+            Resource.Success(response.map { it.mapShoppingCartResponse() })
         } catch (e: Exception) {
             Resource.Error(e.message ?: "General Error")
         }
@@ -84,14 +84,12 @@ class ShoppingCartDataRepositoryImpl @Inject constructor(
         }
     }
 
-    private fun List<CartComicEntity>.mapShoppingCartResponse(): List<ShoppingCartItem> {
-        return this.map {
-            ShoppingCartItem(
-                comicId = it.cid,
-                title = it.title,
-                image = it.image,
-                totalPrice = it.price.toDouble()
-            )
-        }
+    private fun CartComicEntity.mapShoppingCartResponse(): ShoppingCartItem {
+        return ShoppingCartItem(
+            comicId = cid,
+            title = title,
+            image = image,
+            totalPrice = price.toDouble()
+        )
     }
 }

@@ -1,13 +1,13 @@
-package com.davidmerchan.domain
+package com.davidmerchan.domain.useCase
 
 import com.davidmerchan.domain.repository.ShoppingCartDataRepository
-import com.davidmerchan.domain.useCase.ClearShoppingCartUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.confirmVerified
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import org.junit.After
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -38,5 +38,18 @@ class ClearShoppingCartUseCaseTest {
         // Then
         coVerify { shoppingCartDataRepository.clearShoppingCart() }
         assertTrue(result)
+    }
+
+    @Test
+    fun `should clear shopping cart when repository returns false`() = runBlocking {
+        // Given
+        coEvery { shoppingCartDataRepository.clearShoppingCart() } returns false
+
+        // When
+        val result = clearShoppingCartUseCase()
+
+        // Then
+        coVerify { shoppingCartDataRepository.clearShoppingCart() }
+        assertFalse(result)
     }
 }

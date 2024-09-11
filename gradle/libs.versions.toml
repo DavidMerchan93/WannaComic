@@ -1,13 +1,14 @@
 [versions]
 agp = "8.5.1"
 coilCompose = "2.7.0"
+core = "1.5.0"
 hiltNavigationCompose = "1.2.0"
 kotlin = "1.9.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
-kotlinxCoroutinesTest = "1.8.1"
+kotlinxCoroutinesTest = "1.7.2"
 ktorBom = "2.3.12"
 lifecycleRuntimeKtx = "2.6.1"
 activityCompose = "1.8.0"
@@ -17,7 +18,9 @@ material = "1.12.0"
 ksp_version = "1.9.0-1.0.13"
 mockk = "1.13.5"
 mockkAgent = "1.13.5"
+mockkAgentJvm = "1.13.12"
 mockkAndroid = "1.13.5"
+mockkVersion = "1.13.12"
 navigationCompose = "2.8.0"
 room_version = "2.6.1"
 datastore_version = "1.1.1"
@@ -27,6 +30,7 @@ hiltCoroutines = "1.7.3"
 junitJunit = "4.12"
 
 [libraries]
+androidx-core = { module = "androidx.test:core", version.ref = "core" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
@@ -64,8 +68,8 @@ androidx-room-ktx = { group = "androidx.room", name = "room-ktx" , version.ref="
 androidx-datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore_version" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 mockk-agent = { module = "io.mockk:mockk-agent", version.ref = "mockkAgent" }
+mockk-agent-jvm = { module = "io.mockk:mockk-agent-jvm", version.ref = "mockkAgentJvm" }
 mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockkAndroid" }
-junit-junit = { group = "junit", name = "junit", version.ref = "junitJunit" }
 
 [plugins]
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp_version" }

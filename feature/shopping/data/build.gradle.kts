@@ -48,20 +48,15 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
 
-    // MockK
     // JUnit 4
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
     // MockK
-    testImplementation("io.mockk:mockk:1.13.5")
-    androidTestImplementation("io.mockk:mockk-android:1.13.5")
-    testImplementation("io.mockk:mockk-agent-jvm:1.13.5")
-
-    // Para correr las pruebas en un ambiente de Android
-    testImplementation("androidx.test:core:1.5.0")
-
-    // Coroutines si tu proyecto las usa
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.2")
+    testImplementation(libs.mockk)
+    androidTestImplementation(libs.mockk.android)
+    testImplementation(libs.mockk.agent.jvm)
+    testImplementation(libs.androidx.core)
+    testImplementation(libs.kotlinx.coroutines.test)
 }
